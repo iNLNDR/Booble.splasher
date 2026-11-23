@@ -14,11 +14,12 @@ A clean, arcade-style bubble shooter starring **Pip the penguin**, who turns the
 ## Controls
 | Action | Touch | Keyboard |
 |---|---|---|
-| Aim | Drag anywhere | ← → |
-| Shoot | Lift your finger | Space / ↑ |
-| Cancel a shot | Drag below the launcher, then lift | – |
-| Swap bubbles | Tap NEXT or Pip | X / Shift |
+| Aim | Drag (the aim turns at a steady speed) or hold the arrow buttons | ← → |
+| Shoot | Tap anywhere or press Shoot | Space / ↑ |
+| Swap bubbles | Tap NEXT or Pip's feet | X / Shift |
 | Pause | II button | Esc / P |
+
+In **Settings** you can switch aiming to *Instant* (the aim jumps to your finger) and shooting to *Tap or lift* (lifting your finger after a drag also shoots).
 
 ## Put it on GitHub Pages
 1. Create a new **public** repository on GitHub, for example `bobble-splasher`.

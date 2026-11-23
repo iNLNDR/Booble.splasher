@@ -111,6 +111,20 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
 @keyframes pulse{50%{box-shadow:0 0 0 calc(var(--u)*2) #fff,0 0 0 calc(var(--u)*6) rgba(255,255,255,.55),0 calc(var(--u)*3) 0 calc(var(--u)*2) rgba(40,30,70,.28)}}
 .pipav{position:absolute;left:50%;bottom:calc(100% + var(--u)*2);width:calc(var(--u)*26);transform:translateX(-50%);animation:hop .7s ease-in-out infinite alternate;pointer-events:none}
 @keyframes hop{to{transform:translate(-50%,calc(var(--u)*-5))}}
+#ctrlBar{position:absolute;left:var(--ox);width:calc(var(--u)*270);top:var(--cbar);transform:translateY(-50%);display:flex;justify-content:space-between;align-items:center;padding:0 calc(var(--u)*10);pointer-events:none;z-index:2}
+.cbtn{pointer-events:auto;touch-action:none;border:0;cursor:pointer;font-family:inherit;font-weight:700;color:#fff;-webkit-user-select:none;user-select:none;
+  width:calc(var(--u)*52);height:calc(var(--u)*24);border-radius:999px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25)),linear-gradient(#8fd6ff,#2f9cf0);
+  box-shadow:inset 0 calc(var(--u)*-2.5) 0 rgba(10,60,140,.35),0 0 0 calc(var(--u)*2) #fff,0 calc(var(--u)*2.5) 0 calc(var(--u)*2) rgba(20,40,80,.3);opacity:.92}
+.cbtn svg{width:calc(var(--u)*15);height:calc(var(--u)*15);fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 0 rgba(10,50,120,.5))}
+.cbtn.fire{width:calc(var(--u)*62);font-size:calc(var(--u)*10);background:linear-gradient(#ffb0cf,#ff5c9a);box-shadow:inset 0 calc(var(--u)*-2.5) 0 rgba(150,20,70,.35),0 0 0 calc(var(--u)*2) #fff,0 calc(var(--u)*2.5) 0 calc(var(--u)*2) rgba(80,20,50,.3);text-shadow:0 1px 0 rgba(120,20,60,.6)}
+.cbtn.down{transform:translateY(calc(var(--u)*1.5)) scale(.96);filter:brightness(1.1)}
+.opt{width:100%;margin:calc(var(--u)*2) 0 calc(var(--u)*8)}
+.ol{font-size:calc(var(--u)*10);font-weight:700;margin-bottom:calc(var(--u)*4)}
+.oh{font-size:calc(var(--u)*7.5);font-weight:500;color:#9a7a6a;line-height:1.4;margin-top:calc(var(--u)*4)}
+.seg{display:flex;background:#f0dcc0;border-radius:999px;padding:calc(var(--u)*2.5);box-shadow:inset 0 calc(var(--u)*1.5) calc(var(--u)*2) rgba(120,70,20,.2)}
+.seg button{flex:1;border:0;border-radius:999px;font-family:inherit;font-weight:700;font-size:calc(var(--u)*9.5);padding:calc(var(--u)*6) 0;background:transparent;color:#a07a5a;cursor:pointer;touch-action:manipulation}
+.seg button.on{background:linear-gradient(#ffd07a,#ff9f2f);color:#fff;text-shadow:0 1px 0 rgba(140,60,0,.5);box-shadow:0 0 0 calc(var(--u)*1.5) #fff,0 calc(var(--u)*2) 0 calc(var(--u)*1.5) rgba(140,80,20,.25)}
 @media (prefers-reduced-motion:reduce){.node.cur,.pipav,svg.big.on{animation:none}}
 </style>
 </head>
@@ -124,6 +138,7 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
       <button class="btn" data-act="adventure">Adventure</button>
       <button class="btn blue" data-act="endless">Endless</button>
       <button class="btn orange" data-act="help">How to play</button>
+      <button class="btn wood" data-act="settings">Settings</button>
       <div class="row">
         <button class="btn wood sm" data-act="sfx" id="tSfx">Sound on</button>
         <button class="btn wood sm" data-act="music" id="tMusic">Music on</button>
@@ -146,6 +161,7 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
         <button class="btn green" data-act="resume">Resume</button>
         <button class="btn orange" data-act="restart">Restart</button>
         <button class="btn blue" data-act="quit">Quit</button>
+        <button class="btn wood" data-act="settings">Settings</button>
         <div class="row">
           <button class="btn wood sm" data-act="sfx" id="pSfx">Sound on</button>
           <button class="btn wood sm" data-act="music" id="pMusic">Music on</button>
@@ -163,10 +179,29 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
       </div>
     </div>
 
+    <div id="ctrlBar" class="hidden">
+      <button id="btnL" class="cbtn" aria-label="Turn left"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button id="btnFire" class="cbtn fire" aria-label="Shoot">Shoot</button>
+      <button id="btnR" class="cbtn" aria-label="Turn right"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+
+    <div id="scrSettings" class="screen dim">
+      <div class="card">
+        <h2>Settings</h2>
+        <div class="opt"><div class="ol">Aiming</div>
+          <div class="seg" data-key="aim"><button data-v="ctrl">Controller</button><button data-v="instant">Instant</button></div>
+          <div class="oh">Controller: the arrow turns at a steady speed when you drag or hold the arrow buttons. Instant: it jumps straight to your finger.</div></div>
+        <div class="opt"><div class="ol">Shooting</div>
+          <div class="seg" data-key="fire"><button data-v="tap">Tap</button><button data-v="release">Tap or lift</button></div>
+          <div class="oh">Tap: drag to aim, then tap to shoot. Tap or lift: lifting your finger after a drag also shoots.</div></div>
+        <button class="btn green" data-act="closehelp">Done</button>
+      </div>
+    </div>
+
     <div id="scrHelp" class="screen dim">
       <div class="card">
         <h2>How to play</h2>
-        <p><b>Drag</b> anywhere to aim and <b>lift</b> to shoot. Drag below Pip before lifting to cancel.</p>
+        <p><b>Drag</b> to turn the aim, or hold the <b>arrow buttons</b>. <b>Tap</b> anywhere (or press Shoot) to fire. You can change this in Settings.</p>
         <p>Tap the <b>Next</b> bubble or Pip's feet to swap.</p>
         <p>Match <b>3 or more</b> of one colour to pop them. Anything left hanging falls for bonus points!</p>
         <p>The ceiling drops when the sign reaches 0. Keep bubbles above the pearl line.</p>
@@ -700,6 +735,7 @@ function sfx(n, p = 0) {
     case 'boom': noise(0.6, 0.55, 0, 700); tone(150, 0.5, 'sawtooth', 0.12, 35); tone(80, 0.5, 'sine', 0.3, 30); break;
     case 'swap': tone(330, 0.08, 'sine', 0.14, 660); tone(660, 0.1, 'sine', 0.1, 495, 0.07); break;
     case 'click': tone(880, 0.05, 'sine', 0.12, 1320); break;
+    case 'tick': if (now - lastTick < 0.03) return; lastTick = now; tone(2400, 0.012, 'square', 0.018); tone(1200, 0.02, 'sine', 0.04); break;
     case 'warn': tone(1568, 0.07, 'square', 0.035); tone(1568, 0.07, 'square', 0.035, null, 0.12); break;
     case 'hurry': tone(1760, 0.06, 'square', 0.04); tone(2093, 0.08, 'square', 0.04, null, 0.08); break;
     case 'star': [0, 4, 7, 12, 16, 19, 24].forEach((s, i) => tone(mf(84 + s), 0.14, 'triangle', 0.08, null, i * 0.035)); break;
@@ -769,7 +805,7 @@ function buzz(ms) { try { if (SAVE.sfx && navigator.vibrate) navigator.vibrate(m
 
 /* ---------- save data ---------- */
 const SAVE_KEY = 'bobbleSplasher.save.v2';
-const SAVE = { unlocked: 1, stars: {}, best: {}, endless: 0, sfx: true, music: true };
+const SAVE = { unlocked: 1, stars: {}, best: {}, endless: 0, sfx: true, music: true, aim: 'ctrl', fire: 'tap' };
 try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s) Object.assign(SAVE, s); } catch (e) { }
 function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) { } }
 
@@ -1143,7 +1179,19 @@ function update(dt) {
   if (G.comboShow > 0) G.comboShow -= dt;
   if (G.pengT > 0) { G.pengT -= dt; if (G.pengT <= 0 && G.state !== 'won' && G.state !== 'lost') G.peng = 'idle'; }
   G.blinkT -= dt; if (G.blinkT < -0.12) G.blinkT = 2 + rnd() * 3;
-  if (G.state === 'aim' || G.state === 'fly') { if (KEYS.left) G.angle = clamp(G.angle + dt * 1.6, 0.14, Math.PI - 0.14); if (KEYS.right) G.angle = clamp(G.angle - dt * 1.6, 0.14, Math.PI - 0.14); }
+  if (G.state === 'aim' || G.state === 'fly') {
+    const prevA = G.angle;
+    const turn = (G.holdL || KEYS.left ? 1 : 0) - (G.holdR || KEYS.right ? 1 : 0);
+    if (turn) { G.holdT = (G.holdT || 0) + dt; const sp = Math.min(2.3, 0.35 + G.holdT * 2.0); G.angle += turn * sp * dt; }   // slow start, then speeds up, like holding a d-pad
+    else G.holdT = 0;
+    if (SAVE.aim === 'ctrl' && G.dragging && G.aimTarget != null) {   // finger sets a target; the arrow turns toward it at a steady speed
+      const d = G.aimTarget - G.angle, want = clamp(d * 7, -2.0, 2.0);
+      G.aimVel = lerp(G.aimVel || 0, want, Math.min(1, dt * 9)); G.angle += G.aimVel * dt;
+    } else G.aimVel = 0;
+    G.angle = clamp(G.angle, 0.14, Math.PI - 0.14);
+    G.tickAcc = (G.tickAcc || 0) + Math.abs(G.angle - prevA); if (G.tickAcc > 0.045) { G.tickAcc = 0; sfx('tick'); }
+    G.aimActive = !!(G.dragging || turn);
+  }
   G.lean = lerp(G.lean || 0, (Math.PI / 2 - G.angle) * 0.22, Math.min(1, dt * 14));
   if (G.state === 'aim') computeGuide();
   if (G.state === 'lost') { G.lostRow = ROWS_ALLOC - Math.floor(G.stateT * 12); if (G.stateT > 1.8 && !G.resultShown) showResult(false); }
@@ -1184,13 +1232,13 @@ function render(dt) {
     const p = isColor(G.cur) ? PAL[G.cur] : PAL[7]; const ph = (G.t * 1.6) % 1;
     for (let i = 0; i < G.guidePts.length; i++) {
       const [x, y] = G.guidePts[i]; const fade = 1 - i / Math.max(30, G.guidePts.length + 4);
-      ctx.globalAlpha = (G.aiming ? 1 : 0.55) * fade;
+      ctx.globalAlpha = (G.aimActive ? 1 : 0.6) * fade;
       const rr = 3.4 + Math.sin(i * 0.7 - ph * 6.28) * 0.7;
       circle(ctx, x, y, rr); ctx.fillStyle = p[0]; ctx.fill(); ctx.lineWidth = 1; ctx.strokeStyle = hexA(p[3], 0.8); ctx.stroke();
       circle(ctx, x - rr * 0.35, y - rr * 0.35, rr * 0.35); ctx.fillStyle = '#fff'; ctx.fill();
     }
     ctx.globalAlpha = 1;
-    if (G.ghost && G.aiming) { ctx.globalAlpha = 0.4 + Math.sin(G.t * 8) * 0.12; drawBubble(G.cur, cellX(G.ghost[0], G.ghost[1]), cellY(G.ghost[0])); ctx.globalAlpha = 1; }
+    if (G.ghost && G.aimActive) { ctx.globalAlpha = 0.4 + Math.sin(G.t * 8) * 0.12; drawBubble(G.cur, cellX(G.ghost[0], G.ghost[1]), cellY(G.ghost[0])); ctx.globalAlpha = 1; }
   }
   // pops
   for (const p of G.pops) {
@@ -1368,20 +1416,49 @@ function frame(now) { let dt = (now - last) / 1000; last = now; if (!(dt > 0)) d
 /* ---------- input ---------- */
 const KEYS = { left: false, right: false };
 function toGame(e) { const r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * VW - OX, y: (e.clientY - r.top) / r.height * VH - OY }; }
-let activePointer = null;
+let activePointer = null, downInfo = null;
+function angleFrom(px, py) { const a = py > SY - 8 ? (px < SX ? Math.PI - 0.14 : 0.14) : Math.atan2(SY - py, px - SX); return clamp(a, 0.14, Math.PI - 0.14); }
 cv.addEventListener('pointerdown', e => {
   audioInit(); if (MUS.on) applyAudioPrefs();
   if (G.scene !== 'play' || G.paused) return;
   if (G.state !== 'aim' && G.state !== 'fly') return;
   const p = toGame(e);
-  if (Math.hypot(p.x - NEXT_X, p.y - NEXT_Y) < 30 || (Math.abs(p.x - SX) < 30 && p.y > PLANK_Y - 90 && p.y < PLANK_Y + 10 && Math.hypot(p.x - SX, p.y - SY) > 0 && p.y > SY + 8)) { swap(); return; }
+  if (Math.hypot(p.x - NEXT_X, p.y - NEXT_Y) < 30 || (Math.abs(p.x - SX) < 30 && p.y > SY + 8 && p.y < PLANK_Y + 10)) { swap(); return; }
   activePointer = e.pointerId; try { cv.setPointerCapture(e.pointerId); } catch (_) { }
-  G.aiming = true; setAimFrom(p.x, p.y); e.preventDefault();
+  downInfo = { x: e.clientX, y: e.clientY, t: performance.now() };
+  G.aiming = true; G.dragging = false; e.preventDefault();
 });
-cv.addEventListener('pointermove', e => { if (!G.aiming || e.pointerId !== activePointer) return; const p = toGame(e); setAimFrom(p.x, p.y); });
-function endAim(e, cancel) { if (!G.aiming || e.pointerId !== activePointer) return; G.aiming = false; activePointer = null; const p = toGame(e); if (!cancel && p.y < SY - 8) fire(); }
+cv.addEventListener('pointermove', e => {
+  if (!G.aiming || e.pointerId !== activePointer) return;
+  if (!G.dragging && downInfo && Math.hypot(e.clientX - downInfo.x, e.clientY - downInfo.y) > 10) G.dragging = true;
+  if (!G.dragging) return;
+  const p = toGame(e); const a = angleFrom(p.x, p.y);
+  if (SAVE.aim === 'ctrl') G.aimTarget = a; else G.angle = a;
+});
+function endAim(e, cancel) {
+  if (!G.aiming || e.pointerId !== activePointer) return;
+  const p = toGame(e); const wasDrag = G.dragging;
+  const tap = !wasDrag && downInfo && performance.now() - downInfo.t < 400;
+  G.aiming = false; G.dragging = false; G.aimTarget = null; activePointer = null; downInfo = null;
+  if (cancel) return;
+  if (tap) {                                   // a quick tap shoots
+    if (SAVE.aim === 'instant') G.angle = angleFrom(p.x, p.y);
+    fire();
+  } else if (SAVE.fire === 'release' && p.y < SY - 8) fire();   // optional: lift to shoot
+}
 cv.addEventListener('pointerup', e => endAim(e, false));
 cv.addEventListener('pointercancel', e => endAim(e, true));
+// on-screen controller: hold arrows to turn, round button to shoot
+function holdBtn(id, key) {
+  const b = document.getElementById(id);
+  const on = e => { e.preventDefault(); e.stopPropagation(); audioInit(); G[key] = true; b.classList.add('down'); try { b.setPointerCapture(e.pointerId); } catch (_) { } };
+  const off = e => { G[key] = false; b.classList.remove('down'); };
+  b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('lostpointercapture', off);
+  b.addEventListener('contextmenu', e => e.preventDefault());
+}
+holdBtn('btnL', 'holdL'); holdBtn('btnR', 'holdR');
+document.getElementById('btnFire').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); audioInit(); const b = e.currentTarget; b.classList.add('down'); setTimeout(() => b.classList.remove('down'), 120); if (G.scene === 'play' && !G.paused) fire(); });
+function updCtrl() { const show = G.scene === 'play' && !G.paused && !G.resultShown && SAVE.aim === 'ctrl'; document.getElementById('ctrlBar').classList.toggle('hidden', !show); if (!show) { G.holdL = G.holdR = false; } }
 addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') KEYS.left = true; else if (e.key === 'ArrowRight') KEYS.right = true;
   else if ((e.key === ' ' || e.key === 'ArrowUp') && G.scene === 'play' && !G.paused) { audioInit(); fire(); e.preventDefault(); }
@@ -1395,8 +1472,10 @@ document.addEventListener('visibilitychange', () => { if (document.hidden && G.s
 
 /* ---------- UI ---------- */
 const $ = id => document.getElementById(id);
-const SCREENS = ['scrTitle', 'scrLevels', 'scrPause', 'scrResult', 'scrHelp'];
-function showScreen(id) { for (const s of SCREENS) $(s).classList.toggle('show', s === id); }
+const SCREENS = ['scrTitle', 'scrLevels', 'scrPause', 'scrResult', 'scrHelp', 'scrSettings'];
+function showScreen(id) { for (const s of SCREENS) $(s).classList.toggle('show', s === id); updCtrl(); }
+function refreshSettings() { document.querySelectorAll('.seg').forEach(sg => sg.querySelectorAll('button').forEach(b => b.classList.toggle('on', SAVE[sg.dataset.key] === b.dataset.v))); }
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => { const k = b.parentElement.dataset.key; SAVE[k] = b.dataset.v; persist(); refreshSettings(); sfx('click'); }));
 function refreshToggles() {
   for (const id of ['tSfx', 'pSfx']) $(id).textContent = 'Sound ' + (SAVE.sfx ? 'on' : 'off');
   for (const id of ['tMusic', 'pMusic']) $(id).textContent = 'Music ' + (SAVE.music ? 'on' : 'off');
@@ -1465,6 +1544,7 @@ function act(a) {
     case 'endless': startEndless(); break;
     case 'help': showScreen('scrHelp'); break;
     case 'closehelp': showScreen(G.scene === 'play' ? 'scrPause' : 'scrTitle'); break;
+    case 'settings': refreshSettings(); showScreen('scrSettings'); break;
     case 'home': goTitle(); break;
     case 'levels': G.paused = false; buildLevelList(); G.scene = 'levels'; showScreen('scrLevels'); $('btnPause').classList.add('hidden'); musicStart(0); break;
     case 'pause': if (G.scene !== 'play' || G.state === 'won' || G.state === 'lost') return; G.paused = true; G.aiming = false; showScreen('scrPause'); MUS.on = false; applyAudioPrefs(); break;
@@ -1490,6 +1570,7 @@ function resize() {
   const cw = W * s;
   wrap.style.setProperty('--u', (cw / 270) + 'px');
   wrap.style.setProperty('--ox', (OX * s) + 'px'); wrap.style.setProperty('--oy', (OY * s) + 'px'); wrap.style.setProperty('--ob', (OB * s) + 'px');
+  wrap.style.setProperty('--cbar', ((OY + PLANK_Y + 4 + (H - PLANK_Y - 4 + Math.min(OB, 120)) / 2) * s) + 'px');
   const dpr = Math.min(window.devicePixelRatio || 1, 3);
   const nk = Math.max(1, s * dpr);
   cv.width = Math.round(VW * nk); cv.height = Math.round(VH * nk);
