@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#5fc4ff">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -74,7 +74,7 @@ svg.big.on:nth-child(2){animation-delay:.22s}svg.big.on:nth-child(3){animation-d
 #resBest{font-size:calc(var(--u)*9);color:#9a7a6a;margin-bottom:calc(var(--u)*6)}
 /* stage map */
 #scrLevels{justify-content:flex-start;background:#7fcfff}
-.mapbar{position:absolute;left:50%;transform:translateX(-50%);width:calc(var(--u)*270);top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:calc(var(--u)*7) calc(var(--u)*7);pointer-events:none}
+.mapbar{position:absolute;left:50%;transform:translateX(-50%);width:calc(var(--u)*270);top:env(safe-area-inset-top,0px);z-index:3;display:flex;align-items:center;justify-content:space-between;padding:calc(var(--u)*7) calc(var(--u)*7);pointer-events:none}
 .mapbar>*{pointer-events:auto}
 .mapbar .round{position:static}
 .ptitle,.pstars{background:linear-gradient(rgba(52,44,110,.95),rgba(28,24,72,.95));border-radius:999px;padding:calc(var(--u)*6) calc(var(--u)*12);font-size:calc(var(--u)*11);box-shadow:0 0 0 calc(var(--u)*2) #ffcf4a,0 calc(var(--u)*3) calc(var(--u)*6) rgba(0,0,0,.25);display:flex;align-items:center;gap:calc(var(--u)*4)}
@@ -111,14 +111,6 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
 @keyframes pulse{50%{box-shadow:0 0 0 calc(var(--u)*2) #fff,0 0 0 calc(var(--u)*6) rgba(255,255,255,.55),0 calc(var(--u)*3) 0 calc(var(--u)*2) rgba(40,30,70,.28)}}
 .pipav{position:absolute;left:50%;bottom:calc(100% + var(--u)*2);width:calc(var(--u)*26);transform:translateX(-50%);animation:hop .7s ease-in-out infinite alternate;pointer-events:none}
 @keyframes hop{to{transform:translate(-50%,calc(var(--u)*-5))}}
-#ctrlBar{position:absolute;left:var(--ox);width:calc(var(--u)*270);top:var(--cbar);transform:translateY(-50%);display:flex;justify-content:space-between;align-items:center;padding:0 calc(var(--u)*10);pointer-events:none;z-index:2}
-.cbtn{pointer-events:auto;touch-action:none;border:0;cursor:pointer;font-family:inherit;font-weight:700;color:#fff;-webkit-user-select:none;user-select:none;
-  width:calc(var(--u)*52);height:calc(var(--u)*24);border-radius:999px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25)),linear-gradient(#8fd6ff,#2f9cf0);
-  box-shadow:inset 0 calc(var(--u)*-2.5) 0 rgba(10,60,140,.35),0 0 0 calc(var(--u)*2) #fff,0 calc(var(--u)*2.5) 0 calc(var(--u)*2) rgba(20,40,80,.3);opacity:.92}
-.cbtn svg{width:calc(var(--u)*15);height:calc(var(--u)*15);fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 1px 0 rgba(10,50,120,.5))}
-.cbtn.fire{width:calc(var(--u)*62);font-size:calc(var(--u)*10);background:linear-gradient(#ffb0cf,#ff5c9a);box-shadow:inset 0 calc(var(--u)*-2.5) 0 rgba(150,20,70,.35),0 0 0 calc(var(--u)*2) #fff,0 calc(var(--u)*2.5) 0 calc(var(--u)*2) rgba(80,20,50,.3);text-shadow:0 1px 0 rgba(120,20,60,.6)}
-.cbtn.down{transform:translateY(calc(var(--u)*1.5)) scale(.96);filter:brightness(1.1)}
 .opt{width:100%;margin:calc(var(--u)*2) 0 calc(var(--u)*8)}
 .ol{font-size:calc(var(--u)*10);font-weight:700;margin-bottom:calc(var(--u)*4)}
 .oh{font-size:calc(var(--u)*7.5);font-weight:500;color:#9a7a6a;line-height:1.4;margin-top:calc(var(--u)*4)}
@@ -179,18 +171,12 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
       </div>
     </div>
 
-    <div id="ctrlBar" class="hidden">
-      <button id="btnL" class="cbtn" aria-label="Turn left"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
-      <button id="btnFire" class="cbtn fire" aria-label="Shoot">Shoot</button>
-      <button id="btnR" class="cbtn" aria-label="Turn right"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
-    </div>
-
     <div id="scrSettings" class="screen dim">
       <div class="card">
         <h2>Settings</h2>
         <div class="opt"><div class="ol">Aiming</div>
           <div class="seg" data-key="aim"><button data-v="ctrl">Controller</button><button data-v="instant">Instant</button></div>
-          <div class="oh">Controller: the arrow turns at a steady speed when you drag or hold the arrow buttons. Instant: it jumps straight to your finger.</div></div>
+          <div class="oh">Controller: the aim turns at a steady speed while you drag. Instant: it jumps straight to your finger.</div></div>
         <div class="opt"><div class="ol">Shooting</div>
           <div class="seg" data-key="fire"><button data-v="tap">Tap</button><button data-v="release">Tap or lift</button></div>
           <div class="oh">Tap: drag to aim, then tap to shoot. Tap or lift: lifting your finger after a drag also shoots.</div></div>
@@ -201,7 +187,7 @@ svg.mini{width:calc(var(--u)*11);height:calc(var(--u)*11);fill:#ffcf2e}
     <div id="scrHelp" class="screen dim">
       <div class="card">
         <h2>How to play</h2>
-        <p><b>Drag</b> to turn the aim, or hold the <b>arrow buttons</b>. <b>Tap</b> anywhere (or press Shoot) to fire. You can change this in Settings.</p>
+        <p><b>Drag</b> left or right to turn the aim, like a controller. <b>Tap</b> anywhere to shoot. You can change this in Settings.</p>
         <p>Tap the <b>Next</b> bubble or Pip's feet to swap.</p>
         <p>Match <b>3 or more</b> of one colour to pop them. Anything left hanging falls for bonus points!</p>
         <p>The ceiling drops when the sign reaches 0. Keep bubbles above the pearl line.</p>
@@ -594,6 +580,7 @@ function decorBottom(g, wi, yEnd) { // continues the deck, then the ground, belo
   const gy = deckEnd + 8; if (yEnd <= gy) return;
   const [c1, c2] = GROUND[wi]; const gr = g.createLinearGradient(0, gy, 0, yEnd); gr.addColorStop(0, c2); gr.addColorStop(0.2, c1); gr.addColorStop(1, c1);
   g.fillStyle = gr; g.fillRect(x0, gy, x1 - x0, yEnd - gy + 2);
+  if (yEnd - gy > 34) { const ps = Math.min(1.3, (yEnd - gy) / 50); prop(g, wi, 54, gy + (yEnd - gy) * 0.62, ps); prop(g, wi, W - 66, gy + (yEnd - gy) * 0.7, ps * 0.85); }
   const r = mulberry32(70 + wi), area = (x1 - x0) * (yEnd - gy), n = Math.min(80, area / 900);
   for (let i = 0; i < n; i++) {
     const x = x0 + r() * (x1 - x0), y = gy + 14 + r() * Math.max(1, yEnd - gy - 20), k = r();
@@ -601,6 +588,33 @@ function decorBottom(g, wi, yEnd) { // continues the deck, then the ground, belo
     else if (wi === 4) { if (k < 0.25) { g.fillStyle = '#b8c8e8'; ell(g, x, y, 2, 3); g.fill(); ell(g, x + 5, y - 4, 2, 3); g.fill(); } else { circle(g, x, y, 0.8 + r() * 1.2); g.fillStyle = '#ffffff'; g.fill(); } }
     else { if (k < 0.55) { g.fillStyle = ['#ffffff', '#ff8fc8', '#ffe066', '#9fd0ff'][Math.floor(r() * 4)]; for (let q = 0; q < 5; q++) { const a = q / 5 * 6.28; circle(g, x + Math.cos(a) * 2.4, y + Math.sin(a) * 2.4, 2); g.fill(); } circle(g, x, y, 1.4); g.fillStyle = '#ffcf33'; g.fill(); } else { g.strokeStyle = c2; g.lineWidth = 1.4; g.beginPath(); g.moveTo(x - 3, y + 3); g.lineTo(x - 1, y - 4); g.moveTo(x, y + 3); g.lineTo(x + 2, y - 5); g.moveTo(x + 3, y + 3); g.lineTo(x + 5, y - 3); g.stroke(); } }
   }
+}
+function prop(g, wi, x, y, s) {
+  g.save(); g.translate(x, y); g.scale(s, s); g.lineJoin = 'round'; g.lineWidth = 1.5;
+  const st = c => { g.strokeStyle = c; g.stroke(); };
+  ell(g, 0, 2, 18, 4); g.fillStyle = 'rgba(40,30,60,0.15)'; g.fill();
+  if (wi === 0) { // sandcastle + bucket
+    g.fillStyle = '#f2cf86'; rrect(g, -16, -14, 32, 16, 2); g.fill(); st('#b8893c'); rrect(g, -8, -26, 16, 13, 2); g.fill(); st('#b8893c');
+    for (const xx of [-16, -9, -2, 5, 12]) { g.fillRect(xx, -18, 4, 4); } for (const xx of [-8, -1, 6]) g.fillRect(xx, -30, 3, 4);
+    g.fillStyle = '#c99a4a'; rrect(g, -3, -6, 6, 8, 3); g.fill(); g.beginPath(); g.moveTo(0, -26); g.lineTo(0, -40); st('#7a4a22'); g.beginPath(); g.moveTo(0, -40); g.lineTo(9, -36); g.lineTo(0, -33); g.closePath(); g.fillStyle = '#ff5468'; g.fill();
+    g.beginPath(); g.moveTo(22, -12); g.lineTo(36, -12); g.lineTo(33, 2); g.lineTo(25, 2); g.closePath(); g.fillStyle = '#3fb2ff'; g.fill(); st('#1478d8');
+  } else if (wi === 1) { // mushrooms
+    for (const [mx, ms, c] of [[0, 1, '#ff5468'], [16, 0.7, '#ff9b2f']]) { g.save(); g.translate(mx, 0); g.scale(ms, ms); rrect(g, -4, -14, 8, 15, 3); g.fillStyle = '#fff3dd'; g.fill(); st('#a08060');
+      g.beginPath(); g.ellipse(0, -14, 13, 10, 0, Math.PI, 0); g.closePath(); g.fillStyle = c; g.fill(); st('#7a2a20'); for (const [dx, dy] of [[-6, -19], [3, -21], [8, -16]]) { circle(g, dx, dy, 2.2); g.fillStyle = '#fff'; g.fill(); } g.restore(); }
+  } else if (wi === 2) { // stone lantern
+    g.fillStyle = '#c9c4d6'; rrect(g, -4, -16, 8, 18, 1); g.fill(); st('#7a7590'); rrect(g, -9, -24, 18, 9, 2); g.fill(); st('#7a7590');
+    g.fillStyle = '#ffe9a0'; g.fillRect(-4, -22, 8, 5); g.beginPath(); g.moveTo(-13, -24); g.lineTo(0, -33); g.lineTo(13, -24); g.closePath(); g.fillStyle = '#b8b2c8'; g.fill(); st('#7a7590');
+    circle(g, 20, -2, 4); g.fillStyle = '#ffb0d0'; g.fill(); circle(g, -18, -1, 3); g.fill();
+  } else if (wi === 3) { // treasure chest
+    rrect(g, -15, -14, 30, 16, 2); g.fillStyle = '#a8642a'; g.fill(); st('#5a2a08'); g.beginPath(); g.ellipse(0, -14, 15, 7, 0, Math.PI, 0); g.closePath(); g.fillStyle = '#c47a38'; g.fill(); st('#5a2a08');
+    g.fillStyle = '#ffd23a'; g.fillRect(-2, -18, 4, 8); g.fillRect(-15, -9, 30, 2.5); circle(g, -9, -21, 2.5); g.fill(); circle(g, 5, -22, 2.5); g.fill();
+  } else { // snowman with scarf
+    circle(g, 0, -9, 10); g.fillStyle = '#ffffff'; g.fill(); st('#a9b6d4'); circle(g, 0, -24, 7); g.fill(); st('#a9b6d4');
+    g.fillStyle = '#2b2b4a'; circle(g, -2.5, -25.5, 1.1); g.fill(); circle(g, 2.5, -25.5, 1.1); g.fill(); g.beginPath(); g.moveTo(0, -23.5); g.lineTo(6, -22.5); g.lineTo(0, -21.5); g.closePath(); g.fillStyle = '#ff8a2a'; g.fill();
+    rrect(g, -7, -19, 14, 3.5, 1.5); g.fillStyle = '#ff4d6d'; g.fill(); g.fillRect(3, -18, 3, 7); rrect(g, -6, -36, 12, 5, 1); g.fillStyle = '#2b2b4a'; g.fill(); g.fillRect(-4, -42, 8, 7);
+    rrect(g, 16, -10, 12, 11, 1.5); g.fillStyle = '#58d05a'; g.fill(); st('#259a2f'); g.fillStyle = '#ffd23a'; g.fillRect(21, -10, 2, 11);
+  }
+  g.restore();
 }
 function buildBackground(wi) {
   if (BG[wi]) return BG[wi];
@@ -1448,17 +1462,7 @@ function endAim(e, cancel) {
 }
 cv.addEventListener('pointerup', e => endAim(e, false));
 cv.addEventListener('pointercancel', e => endAim(e, true));
-// on-screen controller: hold arrows to turn, round button to shoot
-function holdBtn(id, key) {
-  const b = document.getElementById(id);
-  const on = e => { e.preventDefault(); e.stopPropagation(); audioInit(); G[key] = true; b.classList.add('down'); try { b.setPointerCapture(e.pointerId); } catch (_) { } };
-  const off = e => { G[key] = false; b.classList.remove('down'); };
-  b.addEventListener('pointerdown', on); b.addEventListener('pointerup', off); b.addEventListener('pointercancel', off); b.addEventListener('lostpointercapture', off);
-  b.addEventListener('contextmenu', e => e.preventDefault());
-}
-holdBtn('btnL', 'holdL'); holdBtn('btnR', 'holdR');
-document.getElementById('btnFire').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); audioInit(); const b = e.currentTarget; b.classList.add('down'); setTimeout(() => b.classList.remove('down'), 120); if (G.scene === 'play' && !G.paused) fire(); });
-function updCtrl() { const show = G.scene === 'play' && !G.paused && !G.resultShown && SAVE.aim === 'ctrl'; document.getElementById('ctrlBar').classList.toggle('hidden', !show); if (!show) { G.holdL = G.holdR = false; } }
+function updCtrl() { }
 addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft') KEYS.left = true; else if (e.key === 'ArrowRight') KEYS.right = true;
   else if ((e.key === ' ' || e.key === 'ArrowUp') && G.scene === 'play' && !G.paused) { audioInit(); fire(); e.preventDefault(); }
@@ -1563,14 +1567,18 @@ document.querySelector('.ui').addEventListener('click', e => {
 });
 
 /* ---------- layout ---------- */
+function safeInsets() {
+  const d = document.createElement('div'); d.style.cssText = 'position:fixed;left:0;top:0;width:0;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
+  document.body.appendChild(d); const cs = getComputedStyle(d); const r = [parseFloat(cs.paddingTop) || 0, parseFloat(cs.paddingBottom) || 0]; d.remove(); return r;
+}
 function resize() {
-  const vw = innerWidth, vh = innerHeight; const s = Math.min(vw / W, vh / H);
+  const vw = innerWidth, vh = innerHeight; const [st, sb] = safeInsets();
+  const s = Math.min(vw / W, (vh - st - sb) / H);
   VW = vw / s; VH = vh / s; OX = (VW - W) / 2;
-  const extra = VH - H; OY = Math.round(extra * 0.42); OB = extra - OY;
+  const extra = VH - H - (st + sb) / s; OY = st / s + Math.round(extra * 0.42); OB = VH - H - OY;
   const cw = W * s;
   wrap.style.setProperty('--u', (cw / 270) + 'px');
   wrap.style.setProperty('--ox', (OX * s) + 'px'); wrap.style.setProperty('--oy', (OY * s) + 'px'); wrap.style.setProperty('--ob', (OB * s) + 'px');
-  wrap.style.setProperty('--cbar', ((OY + PLANK_Y + 4 + (H - PLANK_Y - 4 + Math.min(OB, 120)) / 2) * s) + 'px');
   const dpr = Math.min(window.devicePixelRatio || 1, 3);
   const nk = Math.max(1, s * dpr);
   cv.width = Math.round(VW * nk); cv.height = Math.round(VH * nk);

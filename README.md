@@ -14,8 +14,8 @@ A clean, arcade-style bubble shooter starring **Pip the penguin**, who turns the
 ## Controls
 | Action | Touch | Keyboard |
 |---|---|---|
-| Aim | Drag (the aim turns at a steady speed) or hold the arrow buttons | ← → |
-| Shoot | Tap anywhere or press Shoot | Space / ↑ |
+| Aim | Drag left or right (the aim turns at a steady speed, like a controller) | ← → |
+| Shoot | Tap anywhere | Space / ↑ |
 | Swap bubbles | Tap NEXT or Pip's feet | X / Shift |
 | Pause | II button | Esc / P |
 
